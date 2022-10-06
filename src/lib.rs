@@ -205,7 +205,14 @@
 
 macro_rules! if_wasm {
     ($($item:item)*) => {$(
-        #[cfg(target_arch = "wasm32")]
+        #[cfg(all(target_arch = "wasm32", not(target_os = "wasi")))]
+        $item
+    )*}
+}
+
+macro_rules! if_wasi {
+    ($($item:item)*) => {$(
+        #[cfg(target_os = "wasi")]
         $item
     )*}
 }
@@ -325,4 +332,31 @@ if_wasm! {
     pub use self::wasm::{Body, Client, ClientBuilder, Request, RequestBuilder, Response};
     #[cfg(feature = "multipart")]
     pub use self::wasm::multipart;
+}
+
+if_wasi! {
+    pub use self::async_impl::{
+        Body, Client, ClientBuilder, Request, RequestBuilder, Response, Upgraded,
+    };
+    pub use self::proxy::Proxy;
+    #[cfg(feature = "__tls")]
+    // Re-exports, to be removed in a future release
+    pub use tls::{Certificate, Identity};
+    #[cfg(feature = "multipart")]
+    pub use self::async_impl::multipart;
+
+
+    mod async_impl;
+    #[cfg(feature = "blocking")]
+    pub mod blocking;
+    mod connect;
+    #[cfg(feature = "cookies")]
+    pub mod cookie;
+    #[cfg(feature = "trust-dns")]
+    mod dns;
+    mod proxy;
+    pub mod redirect;
+    #[cfg(feature = "__tls")]
+    pub mod tls;
+    mod util;
 }

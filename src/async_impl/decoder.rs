@@ -16,7 +16,7 @@ use bytes::Bytes;
 use futures_core::Stream;
 use futures_util::stream::Peekable;
 use http::HeaderMap;
-use hyper::body::HttpBody;
+use http_body::Body as HttpBody;
 
 #[cfg(any(feature = "gzip", feature = "brotli", feature = "deflate"))]
 use tokio_util::codec::{BytesCodec, FramedRead};
