@@ -97,7 +97,7 @@ futures-core = { version = "0.3.0", default-features = false }
 futures-util = { version = "0.3.0", default-features = false }
 http-body = "0.4.0"
 hyper = { git = "https://github.com/futurewei-cloud/hyper", branch = "release/v0.14.20", default-features = false, features = ["full"] }
-h2 = { git = "https://github.com/futurewei-cloud/h2", branch = "wasmdev" }
+h2 = { git = "https://github.com/futurewei-cloud/h2", branch = "release/v0.3.14" }
 once_cell = "1"
 log = "0.4"
 mime = "0.3.16"
